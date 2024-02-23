@@ -2,7 +2,11 @@ package app.grapheneos.setupwizard.action
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
+import android.os.PowerManager
+import android.service.oemlock.OemLockManager
 import android.telephony.TelephonyManager
 import android.util.Log
 import android.widget.ArrayAdapter
@@ -10,6 +14,7 @@ import app.grapheneos.setupwizard.APPLY_SIM_LANGUAGE_ON_ENTRY
 import app.grapheneos.setupwizard.R
 import app.grapheneos.setupwizard.appContext
 import app.grapheneos.setupwizard.data.WelcomeData
+import app.grapheneos.setupwizard.view.activity.OemUnlockActivity
 import com.android.internal.app.LocalePicker
 import com.android.internal.app.LocalePicker.LocaleInfo
 import com.google.android.setupcompat.util.SystemBarHelper
@@ -19,10 +24,12 @@ object WelcomeActions {
     private const val TAG = "WelcomeActions"
     private const val ACTION_ACCESSIBILITY = "android.settings.ACCESSIBILITY_SETTINGS_FOR_SUW"
     private const val ACTION_EMERGENCY = "com.android.phone.EmergencyDialer.DIAL"
+    private const val REBOOT_REASON_BOOTLOADER = "bootloader"
     private var simLocaleApplied = false
 
     init {
         refreshCurrentLocale()
+        refreshOemUnlockStatus()
         Log.d(TAG, "init: currentLocale = ${WelcomeData.selectedLanguage}")
     }
 
@@ -88,5 +95,87 @@ object WelcomeActions {
         }
         if (localeInfo != null) adapter.insert(localeInfo, 0)
         return adapter
+    }
+
+    private fun disableOemUnlockByUser() {
+        getOemLockManager()?.isOemUnlockAllowedByUser = false
+        refreshOemUnlockStatus()
+    }
+
+    private fun getOemLockManager(): OemLockManager? {
+        return appContext.getSystemService(OemLockManager::class.java)
+    }
+
+    fun rebootToBootloader() {
+        appContext.getSystemService(PowerManager::class.java)!!.reboot(REBOOT_REASON_BOOTLOADER)
+    }
+
+    fun next(activity: Activity) {
+        if (Build.isDebuggable()) {
+            // we allow free pass for development features on debug builds of the OS
+            SetupWizard.next(activity)
+            return
+        }
+        if (SetupWizard.isSecondaryUser) {
+            // secondary users should not be bothered for this
+            // the device setup (primary user setup) is already done at this point
+            SetupWizard.next(activity)
+            return
+        }
+        if (WelcomeData.oemUnlocked.value == true) {
+            handleUnlockedBootloader(activity)
+        } else if (WelcomeData.oemUnlockingEnabled.value == true) {
+            handleEnabledOemUnlocking(activity)
+        } else {
+            SetupWizard.next(activity)
+        }
+    }
+
+    private fun handleEnabledOemUnlocking(activity: Activity) {
+        // suggest the user to disable oem unlocking if enabled
+        val dialog = AlertDialog.Builder(activity)
+            .setTitle(R.string.confirmation)
+            .setMessage(R.string.oem_unlock_disabling_suggestion)
+            .setPositiveButton(R.string.yes_disable_now) { _, _ -> disableOemUnlockByUser() }
+            .setNegativeButton(R.string.no_disable_later) { _, _ -> }
+            .setOnDismissListener { SetupWizard.next(activity) }
+            .setCancelable(false)
+            .create()
+        dialog.show()
+        warnNegativeButton(dialog, activity)
+    }
+
+    private fun handleUnlockedBootloader(activity: Activity) {
+        // suggest the user to reboot to fastboot where they can lock bootloader
+        val dialog = AlertDialog.Builder(activity)
+            .setTitle(R.string.confirmation)
+            .setMessage(R.string.oem_unlocked_device_setup_confirmation)
+            .setNegativeButton(R.string.yes_continue) { _, _ -> launchUnlockedWarning(activity) }
+            .setPositiveButton(R.string.no_reboot_to_bootloader) { _, _ -> rebootToBootloader() }
+            .create()
+        dialog.show()
+        warnNegativeButton(dialog, activity)
+    }
+
+    private fun launchUnlockedWarning(activity: Activity) {
+        SetupWizard.startActivity(activity, OemUnlockActivity::class.java)
+    }
+
+    private fun warnNegativeButton(dialog: AlertDialog, activity: Activity) {
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+            .setTextColor(
+                activity.resources.getColor(
+                    R.color.oem_unlocked_warning_color,
+                    activity.theme
+                )
+            )
+    }
+
+    private fun refreshOemUnlockStatus() {
+        val manager = getOemLockManager()
+        WelcomeData.oemUnlocked.value =
+            manager?.isDeviceOemUnlocked ?: false
+        WelcomeData.oemUnlockingEnabled.value =
+            manager?.isOemUnlockAllowedByUser ?: false
     }
 }

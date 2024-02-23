@@ -95,7 +95,13 @@ object SetupWizard {
         return PartnerConfigHelper.getSuwDefaultThemeString(appContext)
     }
 
+    // primary user here means the first user of the device, the user that is implicitly created
+    // on first boot.
+    // any other subsequent users are secondary users
     val isPrimaryUser: Boolean by lazy {
         appContext.getSystemService(UserManager::class.java)!!.isSystemUser
+    }
+    val isSecondaryUser: Boolean by lazy {
+        !isPrimaryUser
     }
 }

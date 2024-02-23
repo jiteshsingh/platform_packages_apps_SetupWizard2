@@ -38,4 +38,16 @@
     <string name="swipe_gestures_title">Swipe to navigate your phone</string>
     <string name="swipe_gestures_desc">Learn gestures to go home, go back and switch between apps</string>
     <string name="try_it">Try it</string>
+    <string name="oem_unlocked_warning">The boot loader is unlocked and software integrity can not be guaranteed. Any data stored on this device may be available to attackers. Do not store any sensitive data on this device.</string>
+    <string name="visit_this_link_on_another_device">Visit this link on another device:</string>
+    <string name="oem_lock_url" translatable="false">grapheneos.org/UBL</string>
+    <string name="oem_unlocked_device_setup_confirmation">Boot loader is unlocked which renders the device insecure as displayed in the warning. Do you still want to continue setting up?</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="yes_continue">Yes, continue</string>
+    <string name="no_reboot_to_bootloader">No, reboot to bootloader</string>
+    <string name="yes_disable_now">Yes, disable now</string>
+    <string name="no_disable_later">No, I will disable it later</string>
+    <string name="oem_unlock_disabling_suggestion">OEM unlocking is enabled, we recommend disabling.
+        Would you like to disable now?
+        You can also disable later from developer options in Settings app.</string>
 </resources>

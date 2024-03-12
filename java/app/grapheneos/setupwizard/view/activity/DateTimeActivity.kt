@@ -42,7 +42,7 @@ class DateTimeActivity : SetupWizardActivity(
         date = requireViewById(R.id.date)
         timeContainer = requireViewById(R.id.time_container)
         time = requireViewById(R.id.time)
-        next = requireViewById(R.id.next)
+        next = requireViewById(R.id.primary_button)
         DateTimeData.timeZone.observe(this) { timezone.text = it }
         DateTimeData.date.observe(this) { date.text = it }
         DateTimeData.time.observe(this) { time.text = it }

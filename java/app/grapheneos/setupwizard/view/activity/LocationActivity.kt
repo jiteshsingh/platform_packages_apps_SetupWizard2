@@ -17,7 +17,7 @@ class LocationActivity : SetupWizardActivity(
 
     override fun bindViews() {
         enabled = requireViewById(R.id.enabled)
-        next = requireViewById(R.id.next)
+        next = requireViewById(R.id.primary_button)
         LocationData.enabled.observe(this) { enabled.isChecked = it }
     }
 

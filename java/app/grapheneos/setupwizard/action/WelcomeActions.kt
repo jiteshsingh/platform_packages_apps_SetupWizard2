@@ -10,8 +10,13 @@ import android.service.oemlock.OemLockManager
 import android.telephony.TelephonyManager
 import android.util.Log
 import android.widget.ArrayAdapter
+import androidx.annotation.MainThread
+import androidx.annotation.WorkerThread
 import app.grapheneos.setupwizard.APPLY_SIM_LANGUAGE_ON_ENTRY
+import app.grapheneos.setupwizard.OEM_UNLOCKED_ACK_TIMER
 import app.grapheneos.setupwizard.R
+import app.grapheneos.setupwizard.android.background
+import app.grapheneos.setupwizard.android.foreground
 import app.grapheneos.setupwizard.appContext
 import app.grapheneos.setupwizard.data.WelcomeData
 import com.android.internal.app.LocalePicker
@@ -29,6 +34,7 @@ object WelcomeActions {
     init {
         refreshCurrentLocale()
         refreshOemUnlockStatus()
+        showPrimaryContent(true)
         Log.d(TAG, "init: currentLocale = ${WelcomeData.selectedLanguage}")
     }
 
@@ -105,12 +111,12 @@ object WelcomeActions {
         return appContext.getSystemService(OemLockManager::class.java)
     }
 
-    private fun rebootBootloader() {
+    fun rebootBootloader() {
         appContext.getSystemService(PowerManager::class.java)!!.reboot(REBOOT_REASON_BOOTLOADER)
     }
 
     fun next(activity: Activity) {
-        if (Build.isDebuggable()) {
+        if (Build.isDebuggable() && false) {
             // we allow free pass for development features on debug builds of the OS
             SetupWizard.next(activity)
             return
@@ -122,7 +128,7 @@ object WelcomeActions {
             return
         }
         if (WelcomeData.oemUnlocked.value == true) {
-            handleUnlockedBootloader(activity)
+            handleOemUnlocked(activity)
         } else if (WelcomeData.oemUnlockingEnabled.value == true) {
             handleEnabledOemUnlocking(activity)
         } else {
@@ -144,12 +150,12 @@ object WelcomeActions {
         warnNegativeButton(dialog, activity)
     }
 
-    private fun handleUnlockedBootloader(activity: Activity) {
+    private fun handleOemUnlocked(activity: Activity) {
         // suggest the user to reboot to fastboot where they can lock bootloader
         val dialog = AlertDialog.Builder(activity)
             .setTitle(R.string.confirmation)
             .setMessage(R.string.oem_unlocked_device_setup_confirmation)
-            .setNegativeButton(R.string.yes_continue) { _, _ -> SetupWizard.next(activity) }
+            .setNegativeButton(R.string.yes_continue) { _, _ -> showOemUnlockedAck() }
             .setPositiveButton(R.string.no_reboot_to_bootloader) { _, _ -> rebootBootloader() }
             .create()
         dialog.show()
@@ -169,8 +175,27 @@ object WelcomeActions {
     private fun refreshOemUnlockStatus() {
         val manager = getOemLockManager()
         WelcomeData.oemUnlocked.value =
-            manager?.isDeviceOemUnlocked ?: false
+            manager?.isDeviceOemUnlocked ?: true
         WelcomeData.oemUnlockingEnabled.value =
             manager?.isOemUnlockAllowedByUser ?: false
+    }
+
+    @MainThread
+    private fun showOemUnlockedAck() {
+        showPrimaryContent(false)
+        background { runOemUnlockedAckTimer() }
+    }
+
+    private fun showPrimaryContent(show: Boolean) {
+        WelcomeData.displayPrimaryContent.value = show
+        WelcomeData.displayOemUnlockedAck.value = !show
+    }
+
+    @WorkerThread
+    private fun runOemUnlockedAckTimer() {
+        for (timer in OEM_UNLOCKED_ACK_TIMER downTo 0) {
+            foreground { WelcomeData.oemUnlockedAckTimer.value = timer }
+            Thread.sleep(1_000)
+        }
     }
 }

@@ -22,7 +22,7 @@ class MigrationActivity : SetupWizardActivity(
 
     override fun bindViews() {
         skip = requireViewById(R.id.skip)
-        next = requireViewById(R.id.next)
+        next = requireViewById(R.id.primary_button)
     }
 
     override fun setupActions() {

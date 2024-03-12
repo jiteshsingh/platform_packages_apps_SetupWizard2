@@ -50,7 +50,11 @@ object SetupWizard {
         val index = activities.indexOf(current.javaClass)
         if (index == -1) throw IllegalArgumentException("unknown current step")
         if (index + 1 == activities.size) throw IllegalArgumentException("no more steps")
-        val intent = Intent(current, activities[index + 1])
+        next(current, activities[index + 1])
+    }
+
+    fun next(current: Activity, next: Class<out Activity>) {
+        val intent = Intent(current, next)
         val options = ActivityOptions.makeCustomAnimation(
             current,
             R.anim.sud_slide_next_in,

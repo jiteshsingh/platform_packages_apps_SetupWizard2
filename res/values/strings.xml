@@ -50,4 +50,17 @@
     <string name="oem_unlock_disabling_suggestion">OEM unlocking is enabled, we recommend disabling.
         Would you like to disable now?
         You can also disable later from developer options in Settings app.</string>
+    <string name="lock_your_bootloader">Lock your bootloader</string>
+    <string name="oem_unlock_fullscreen_desc">
+        The bootloader is unlocked and software integrity
+        can not be guaranteed. Any data stored on this device may be available to attackers.
+        Do not store any sensitive data on this device.\n\nLocking the bootloader at a later stage
+        will wipe all the data on this device. To keep the data safe and secure we advice you to
+        lock the bootloader before setting up the device.\n\nTo lock your bootloader, press
+        \"Reboot to bootloader\" and visit this link on another device for instructions:
+    </string>
+    <string name="reboot_to_bootloader">Reboot to bootloader</string>
+    <string name="continue_without_locking">Continue without locking</string>
+    <string name="continue_without_locking_timer">Continue without locking (%d)</string>
+    <string name="oem_unlock_ack_risks">I understand the security risks of not locking my bootloader.</string>
 </resources>

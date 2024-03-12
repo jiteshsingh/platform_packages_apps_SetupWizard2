@@ -34,6 +34,7 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.activity.OemUnlockActivity" />
         <activity android:name=".view.activity.DateTimeActivity" />
         <activity android:name=".view.activity.WifiActivity" />
         <activity android:name=".view.activity.LocationActivity" />

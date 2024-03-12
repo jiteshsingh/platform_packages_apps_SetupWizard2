@@ -71,16 +71,41 @@
         android:layout_gravity="bottom"
         android:orientation="vertical">
 
-        <CheckBox
-            android:id="@+id/acknowledge_risks"
-            style="@style/SudCheckBox.Multiline.Primary"
-            android:layout_width="wrap_content"
+        <!--        <CheckBox-->
+        <!--            android:id="@+id/acknowledge_risks"-->
+        <!--            style="@style/SudCheckBox.Multiline.Primary"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="?attr/sudMarginStart"-->
+        <!--            android:layout_marginEnd="?attr/sudMarginEnd"-->
+        <!--            android:gravity="center_vertical"-->
+        <!--            android:text="@string/oem_unlock_ack_risks"-->
+        <!--            tools:visibility="visible" />-->
+
+        <LinearLayout
+            android:id="@+id/acknowledge_risks_container"
+            style="@style/SudContentFrame"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="?attr/sudMarginStart"
-            android:layout_marginEnd="?attr/sudMarginEnd"
+            android:layout_gravity="top"
+            android:background="?android:attr/selectableItemBackground"
+            android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:text="@string/oem_unlock_ack_risks"
-            tools:visibility="visible" />
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/acknowledge_risks"
+                style="@style/SudCheckBox.Multiline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="?android:attr/textColorPrimary" />
+
+            <TextView
+                style="@style/SudCheckBox.Multiline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/oem_unlock_ack_risks" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/primary_content_container"

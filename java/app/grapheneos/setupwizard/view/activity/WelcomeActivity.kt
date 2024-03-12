@@ -33,6 +33,7 @@ class WelcomeActivity : SetupWizardActivity(R.layout.activity_welcome) {
     private lateinit var language: TextView
     private lateinit var accessibility: View
     private lateinit var acknowledgeRisks: CheckBox
+    private lateinit var acknowledgeRisksContainer: View
     private lateinit var secondaryButton: TextView
     private lateinit var primaryButton: TextView
     private lateinit var letsSetupText: TextView
@@ -57,6 +58,7 @@ class WelcomeActivity : SetupWizardActivity(R.layout.activity_welcome) {
         language = requireViewById(R.id.language)
         accessibility = requireViewById(R.id.accessibility)
         acknowledgeRisks = requireViewById(R.id.acknowledge_risks)
+        acknowledgeRisksContainer = requireViewById(R.id.acknowledge_risks_container)
         secondaryButton = requireViewById(R.id.secondary_button)
         primaryButton = requireViewById(R.id.primary_button)
         letsSetupText = requireViewById(R.id.lets_setup_text)
@@ -83,7 +85,7 @@ class WelcomeActivity : SetupWizardActivity(R.layout.activity_welcome) {
         }
         WelcomeData.displayOemUnlockedAck.observe(this) { ack ->
             oemUnlockedDetailContainer.isVisible = ack
-            acknowledgeRisks.isVisible = ack
+            acknowledgeRisksContainer.isVisible = ack
             if (ack) {
                 updateAckButton(OEM_UNLOCKED_ACK_TIMER)
                 primaryButton.setText(R.string.reboot_to_bootloader)
@@ -138,9 +140,12 @@ class WelcomeActivity : SetupWizardActivity(R.layout.activity_welcome) {
                 WelcomeActions.rebootBootloader()
             }
         }
-        acknowledgeRisks.setOnClickListener {
-            if (WelcomeData.oemUnlockedAckTimer.value!! > 0) return@setOnClickListener
+        acknowledgeRisks.setOnCheckedChangeListener { _, _ ->
+            if (WelcomeData.oemUnlockedAckTimer.value!! > 0) return@setOnCheckedChangeListener
             updateAckButton(0)
+        }
+        acknowledgeRisksContainer.setOnClickListener {
+            acknowledgeRisks.isChecked = !acknowledgeRisks.isChecked
         }
     }
 }

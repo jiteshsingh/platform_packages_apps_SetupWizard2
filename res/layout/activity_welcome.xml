@@ -23,7 +23,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:importantForAccessibility="no"
-            android:src="@drawable/baseline_warning_amber"
+            android:src="@drawable/baseline_warning_amber_orange_glif"
             app:tint="@color/oem_unlocked_warning_color" />
 
         <TextView

@@ -6,7 +6,6 @@ import android.widget.TextView
 import androidx.annotation.MainThread
 import app.grapheneos.setupwizard.R
 import app.grapheneos.setupwizard.action.OemUnlockActions
-import app.grapheneos.setupwizard.action.WelcomeActions
 import app.grapheneos.setupwizard.android.background
 import app.grapheneos.setupwizard.data.OemUnlockData
 

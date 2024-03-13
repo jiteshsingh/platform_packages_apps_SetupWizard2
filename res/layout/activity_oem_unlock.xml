@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:text="@string/continue_without_locking"
-                android:textColor="@color/oem_unlocked_warning_color" />
+                android:textColor="@color/warning_button_color" />
 
             <Space
                 android:layout_width="0dp"

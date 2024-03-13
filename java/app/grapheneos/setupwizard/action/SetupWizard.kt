@@ -55,17 +55,16 @@ object SetupWizard {
         val index = activities.indexOf(currentStep)
         if (index == -1) throw IllegalArgumentException("unknown current step")
         if (index + 1 == activities.size) throw IllegalArgumentException("no more steps")
-        val intent = Intent(activity, activities[index + 1])
-        startInternalActivity(activity, intent)
+        startActivity(activity, activities[index + 1])
     }
 
-    fun startInternalActivity(activity: Activity, intent: Intent) {
+    fun startActivity(activityContext: Activity, activityClass: Class<out Activity>) {
         val options = ActivityOptions.makeCustomAnimation(
-            activity,
+            activityContext,
             R.anim.sud_slide_next_in,
             R.anim.sud_slide_next_out
         ).toBundle()
-        activity.startActivity(intent, options)
+        activityContext.startActivity(Intent(activityContext, activityClass), options)
     }
 
     //////////////////////////////// common actions /////////////////////////

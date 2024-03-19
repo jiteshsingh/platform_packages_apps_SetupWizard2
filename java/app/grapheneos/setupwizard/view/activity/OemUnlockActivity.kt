@@ -7,6 +7,7 @@ import androidx.annotation.MainThread
 import app.grapheneos.setupwizard.R
 import app.grapheneos.setupwizard.action.OemUnlockActions
 import app.grapheneos.setupwizard.data.OemUnlockData
+import app.grapheneos.setupwizard.setText
 
 class OemUnlockActivity :
     SetupWizardActivity(
@@ -20,15 +21,14 @@ class OemUnlockActivity :
 
     private lateinit var acknowledgeRisksContainer: View
     private lateinit var acknowledgeRisks: CheckBox
-    private lateinit var continueUnlocked: TextView
-    private lateinit var rebootToBootloader: TextView
 
     @MainThread
     override fun bindViews() {
         acknowledgeRisksContainer = requireViewById(R.id.acknowledge_risks_container)
         acknowledgeRisks = requireViewById(R.id.acknowledge_risks)
-        continueUnlocked = requireViewById(R.id.continue_unlocked)
-        rebootToBootloader = requireViewById(R.id.reboot_to_bootloader)
+        primaryButton.setText(R.string.reboot_to_bootloader)
+        secondaryButton.isEnabled = false
+        secondaryButton.setText(R.string.continue_without_locking)
         OemUnlockData.ackTimer.observe(this) {
             updateContinueButton(it)
         }
@@ -44,8 +44,8 @@ class OemUnlockActivity :
             if (OemUnlockData.ackTimer.value!! > 0) return@setOnCheckedChangeListener
             updateContinueButton(0)
         }
-        continueUnlocked.setOnClickListener { OemUnlockActions.next(this) }
-        rebootToBootloader.setOnClickListener { OemUnlockActions.rebootToBootloader() }
+        secondaryButton.setOnClickListener { OemUnlockActions.next(this) }
+        primaryButton.setOnClickListener { OemUnlockActions.rebootToBootloader() }
     }
 
     private fun updateContinueButton(timer: Int) {
@@ -54,7 +54,7 @@ class OemUnlockActivity :
         } else {
             getString(R.string.continue_without_locking_timer, timer)
         }
-        continueUnlocked.text = text
-        continueUnlocked.isEnabled = timer == 0 && acknowledgeRisks.isChecked
+        secondaryButton.text = text
+        secondaryButton.isEnabled = timer == 0 && acknowledgeRisks.isChecked
     }
 }

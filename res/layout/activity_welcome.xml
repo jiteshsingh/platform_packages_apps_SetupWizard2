@@ -1,135 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.setupdesign.GlifLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/glif_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="bottom"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/oem_unlocked_container"
-        style="@style/SudContentFrame"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginVertical="@dimen/sud_glif_header_title_margin_top"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        tools:ignore="UseCompoundDrawables">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/baseline_warning_amber_orange_glif"
-            app:tint="@color/oem_unlocked_warning_color" />
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/oem_unlocked_container"
+            style="@style/SudContentFrame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="@string/oem_unlocked_warning"
-            android:textAppearance="@style/TextAppearance.SudMaterialYouItemSummary" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/visit_this_link_on_another_device" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/oem_lock_url"
-            android:textColor="@color/oem_unlocked_warning_color" />
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/SudContentFrame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="0dp">
-
-        <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:contentDescription="@string/grapheneos_icon"
-            android:src="@drawable/grapheneos_icon" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lineHeight="45dp"
-            android:text="@string/welcome_to_grapheneos"
-            android:textAppearance="@style/TextAppearance.Material3.DisplayMedium"
-            android:textColor="?android:attr/textColorPrimary" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/grapheneos_desc"
-            android:textAppearance="@style/TextAppearance.SudMaterialYouItemSummary" />
-
-        <TextView
-            android:id="@+id/lets_setup_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/lets_setup_your_device"
-            android:textAppearance="@style/TextAppearance.SudMaterialYouItemSummary" />
-
-        <Button
-            android:id="@+id/language"
-            style="@style/SudGlifButton.Secondary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:drawableStart="@drawable/baseline_language"
-            android:drawablePadding="@dimen/button_drawable_padding"
+            android:layout_alignParentTop="true"
+            android:layout_marginVertical="@dimen/sud_glif_header_title_margin_top"
             android:gravity="center_vertical"
-            android:text="@string/english_united_states"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="@dimen/welcome_content_actions_text_size" />
+            android:orientation="vertical"
+            tools:ignore="UseCompoundDrawables">
 
-        <Button
-            android:id="@+id/accessibility"
-            style="@style/SudGlifButton.Secondary"
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/baseline_warning_amber_orange_glif"
+                app:tint="@color/oem_unlocked_warning_color" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="@string/oem_unlocked_warning"
+                android:textAppearance="@style/TextAppearance.SudMaterialYouItemSummary" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/visit_this_link_on_another_device" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/oem_lock_url"
+                android:textColor="@color/oem_unlocked_warning_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/SudContentFrame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/baseline_accessibility_new"
-            android:drawablePadding="@dimen/button_drawable_padding"
-            android:gravity="center_vertical"
-            android:text="@string/accessibility"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="@dimen/welcome_content_actions_text_size" />
-    </LinearLayout>
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:paddingBottom="0dp">
 
-    <LinearLayout
-        style="@style/SudGlifButtonBar.Stackable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:contentDescription="@string/grapheneos_icon"
+                android:src="@drawable/grapheneos_icon" />
 
-        <Button
-            android:id="@+id/emergency"
-            style="@style/SudGlifButton.Secondary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/emergency_call" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineHeight="45dp"
+                android:text="@string/welcome_to_grapheneos"
+                android:textAppearance="@style/TextAppearance.Material3.DisplayMedium"
+                android:textColor="?android:attr/textColorPrimary" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/grapheneos_desc"
+                android:textAppearance="@style/TextAppearance.SudMaterialYouItemSummary" />
 
-        <Button
-            android:id="@+id/next"
-            style="@style/SudGlifButton.Primary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/next" />
-    </LinearLayout>
-</LinearLayout>
+            <TextView
+                android:id="@+id/lets_setup_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/lets_setup_your_device"
+                android:textAppearance="@style/TextAppearance.SudMaterialYouItemSummary" />
+
+            <Button
+                android:id="@+id/language"
+                style="@style/SudGlifButton.Secondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:drawableStart="@drawable/baseline_language"
+                android:drawablePadding="@dimen/button_drawable_padding"
+                android:gravity="center_vertical"
+                android:text="@string/english_united_states"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="@dimen/welcome_content_actions_text_size" />
+
+            <Button
+                android:id="@+id/accessibility"
+                style="@style/SudGlifButton.Secondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/baseline_accessibility_new"
+                android:drawablePadding="@dimen/button_drawable_padding"
+                android:gravity="center_vertical"
+                android:text="@string/accessibility"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="@dimen/welcome_content_actions_text_size" />
+        </LinearLayout>
+    </RelativeLayout>
+</com.google.android.setupdesign.GlifLayout>

@@ -17,6 +17,7 @@ import app.grapheneos.setupwizard.action.FinishActions
 import app.grapheneos.setupwizard.action.SetupWizard
 import app.grapheneos.setupwizard.action.WelcomeActions
 import app.grapheneos.setupwizard.data.WelcomeData
+import app.grapheneos.setupwizard.setText
 
 // TODO: explore Material 3.0 with JetPack compose
 class WelcomeActivity : SetupWizardActivity(R.layout.activity_welcome) {
@@ -27,8 +28,6 @@ class WelcomeActivity : SetupWizardActivity(R.layout.activity_welcome) {
     private lateinit var oemUnlockedContainer: View
     private lateinit var language: TextView
     private lateinit var accessibility: View
-    private lateinit var emergency: View
-    private lateinit var next: View
     private lateinit var letsSetupText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,13 +45,12 @@ class WelcomeActivity : SetupWizardActivity(R.layout.activity_welcome) {
         oemUnlockedContainer = requireViewById(R.id.oem_unlocked_container)
         language = requireViewById(R.id.language)
         accessibility = requireViewById(R.id.accessibility)
-        emergency = requireViewById(R.id.emergency)
-        next = requireViewById(R.id.next)
         letsSetupText = requireViewById(R.id.lets_setup_text)
         letsSetupText.setText(
             if (SetupWizard.isPrimaryUser) R.string.lets_setup_your_device
             else R.string.lets_setup_your_profile
         )
+        secondaryButton.setText(R.string.emergency_call)
         WelcomeData.selectedLanguage.observe(this) {
             Log.d(TAG, "selectedLanguage: ${it.displayName}")
             this.language.text = it.displayName
@@ -68,10 +66,10 @@ class WelcomeActivity : SetupWizardActivity(R.layout.activity_welcome) {
         language.setOnClickListener { WelcomeActions.showLanguagePicker(this) }
         accessibility.setOnClickListener { WelcomeActions.accessibilitySettings(this) }
         if (packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY_CALLING)) {
-            emergency.setOnClickListener { WelcomeActions.emergencyCall(this) }
+            secondaryButton.setOnClickListener { WelcomeActions.emergencyCall(this) }
         } else {
-            emergency.visibility = View.GONE
+            secondaryButton.visibility = View.GONE
         }
-        next.setOnClickListener { WelcomeActions.next(this) }
+        primaryButton.setOnClickListener { WelcomeActions.next(this) }
     }
 }

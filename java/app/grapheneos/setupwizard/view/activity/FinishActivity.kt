@@ -7,6 +7,7 @@ import app.grapheneos.setupwizard.action.FinishActions
 import app.grapheneos.setupwizard.action.SetupWizard.isPrimaryUser
 import app.grapheneos.setupwizard.data.FinishData
 import app.grapheneos.setupwizard.data.FinishData.disableOemUnlockingVisible
+import app.grapheneos.setupwizard.setText
 
 class FinishActivity : SetupWizardActivity(
     R.layout.activity_finish,
@@ -14,14 +15,13 @@ class FinishActivity : SetupWizardActivity(
     R.string.you_re_all_set_now,
     if (isPrimaryUser) R.string.device_setup_done_desc else R.string.profile_setup_done_desc
 ) {
-    private lateinit var finish: View
     private lateinit var disableOemUnlockingContainer: View
     private lateinit var disableOemUnlocking: CheckBox
 
     override fun bindViews() {
-        finish = requireViewById(R.id.finish)
         disableOemUnlockingContainer = requireViewById(R.id.disable_oem_unlocking_container)
         disableOemUnlocking = requireViewById(R.id.disable_oem_unlocking)
+        primaryButton.setText(R.string.start)
         if (disableOemUnlockingVisible) {
             disableOemUnlocking.isChecked = FinishData.disableOemUnlockingChecked
             FinishData.oemUnlockingEnabled.observe(this) {
@@ -38,6 +38,6 @@ class FinishActivity : SetupWizardActivity(
             disableOemUnlocking.isChecked = !disableOemUnlocking.isChecked
         }
         val disableOemUnlocking = disableOemUnlockingVisible && disableOemUnlocking.isChecked
-        finish.setOnClickListener { FinishActions.finish(this, disableOemUnlocking) }
+        primaryButton.setOnClickListener { FinishActions.finish(this, disableOemUnlocking) }
     }
 }

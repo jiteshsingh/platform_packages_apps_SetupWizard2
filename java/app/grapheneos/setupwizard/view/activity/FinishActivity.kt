@@ -4,6 +4,7 @@ import android.view.View
 import app.grapheneos.setupwizard.R
 import app.grapheneos.setupwizard.action.FinishActions
 import app.grapheneos.setupwizard.action.SetupWizard.isPrimaryUser
+import app.grapheneos.setupwizard.setText
 
 class FinishActivity : SetupWizardActivity(
     R.layout.activity_finish,
@@ -11,13 +12,12 @@ class FinishActivity : SetupWizardActivity(
     R.string.you_re_all_set_now,
     if (isPrimaryUser) R.string.device_setup_done_desc else R.string.profile_setup_done_desc
 ) {
-    private lateinit var finish: View
-
     override fun bindViews() {
-        finish = requireViewById(R.id.finish)
+        primaryButton.setText(R.string.start)
     }
 
     override fun setupActions() {
-        finish.setOnClickListener { FinishActions.finish(this) }
+        primaryButton.setOnClickListener { FinishActions.finish(this) }
     }
 }
+

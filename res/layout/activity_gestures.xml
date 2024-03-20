@@ -8,9 +8,9 @@
     android:layout_height="match_parent">
 
     <ImageView
-        style="@style/SudContentIllustrationExtended"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/SudContentFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:importantForAccessibility="no"
         android:src="@drawable/baseline_swipe"
         app:tint="?attr/colorControlHighlight" />

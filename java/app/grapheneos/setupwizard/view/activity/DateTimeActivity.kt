@@ -9,6 +9,8 @@ import app.grapheneos.setupwizard.action.SetupWizard
 import app.grapheneos.setupwizard.android.background
 import app.grapheneos.setupwizard.android.foreground
 import app.grapheneos.setupwizard.data.DateTimeData
+import app.grapheneos.setupwizard.databinding.ActivityDatetimeBinding
+import app.grapheneos.setupwizard.databinding.ActivityDatetimeBinding.*
 import com.google.android.setupcompat.template.FooterBarMixin
 import com.google.android.setupcompat.template.FooterButton
 import com.google.android.setupdesign.GlifLayout
@@ -41,6 +43,7 @@ class DateTimeActivity : SetupWizardActivity(
     }
 
     override fun bindViews() {
+        inflate(layoutInflater).root
         timezoneContainer = requireViewById(R.id.timezone_container)
         timezone = requireViewById(R.id.timezone)
         dateContainer = requireViewById(R.id.date_container)

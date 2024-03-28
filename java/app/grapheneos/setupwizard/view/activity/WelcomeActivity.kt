@@ -16,8 +16,13 @@ import app.grapheneos.setupwizard.R
 import app.grapheneos.setupwizard.action.FinishActions
 import app.grapheneos.setupwizard.action.SetupWizard
 import app.grapheneos.setupwizard.action.WelcomeActions
+import app.grapheneos.setupwizard.android.foreground
+import app.grapheneos.setupwizard.appContext
 import app.grapheneos.setupwizard.data.WelcomeData
 import app.grapheneos.setupwizard.setText
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 // TODO: explore Material 3.0 with JetPack compose
 class WelcomeActivity : SetupWizardActivity(R.layout.activity_welcome) {
@@ -31,6 +36,7 @@ class WelcomeActivity : SetupWizardActivity(R.layout.activity_welcome) {
     private lateinit var letsSetupText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        intent.putExtra(WizardManagerHelper.EXTRA_IS_SETUP_FLOW, true)
         if (WizardManagerHelper.isUserSetupComplete(this)) {
             superOnCreateAtBaseClass(savedInstanceState)
             FinishActions.finish(this)
@@ -42,6 +48,19 @@ class WelcomeActivity : SetupWizardActivity(R.layout.activity_welcome) {
 
     @MainThread
     override fun bindViews() {
+
+
+        // without the abstraction
+        appContext.mainThreadHandler.post { }
+        appContext.mainThreadHandler.postDelayed({ }, 1_000)
+        language.post { }
+        language.postDelayed({ }, 1_000)
+
+        // with the abstraction
+        foreground { }
+        foreground(1_000) {}
+
+
         oemUnlockedContainer = requireViewById(R.id.oem_unlocked_container)
         language = requireViewById(R.id.language)
         accessibility = requireViewById(R.id.accessibility)
@@ -59,6 +78,8 @@ class WelcomeActivity : SetupWizardActivity(R.layout.activity_welcome) {
             Log.d(TAG, "oemUnlocked: $it")
             oemUnlockedContainer.visibility = if (it) View.VISIBLE else View.GONE
         }
+//        primaryButton.isEnabled = false
+//        secondaryButton.isEnabled = false
     }
 
     @MainThread

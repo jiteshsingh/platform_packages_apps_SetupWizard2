@@ -54,6 +54,6 @@
     <string name="continue_without_locking">Continue without locking</string>
     <string name="continue_without_locking_timer">Continue without locking (%d)</string>
     <string name="oem_unlock_ack_risks">I understand the security risks of not locking my bootloader.</string>
-    <string name="disable_oem_unlocking">Disable OEM Unlocking</string>
+    <string name="disable_oem_unlocking">Disable OEM unlocking</string>
     <string name="disable_oem_unlocking_desc">It\'s recommended to disable OEM unlocking to improve device security</string>
 </resources>

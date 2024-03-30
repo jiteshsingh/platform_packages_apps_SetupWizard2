@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.PowerManager
 import android.service.oemlock.OemLockManager
+import android.telecom.TelecomManager
 import android.telephony.TelephonyManager
 import android.util.Log
 import android.widget.ArrayAdapter
@@ -23,7 +24,6 @@ import java.util.Locale
 object WelcomeActions {
     private const val TAG = "WelcomeActions"
     private const val ACTION_ACCESSIBILITY = "android.settings.ACCESSIBILITY_SETTINGS_FOR_SUW"
-    private const val ACTION_EMERGENCY = "com.android.phone.EmergencyDialer.DIAL"
     private const val REBOOT_REASON_BOOTLOADER = "bootloader"
     private var simLocaleApplied = false
 
@@ -73,7 +73,11 @@ object WelcomeActions {
     }
 
     fun emergencyCall(context: Activity) {
-        SetupWizard.startActivity(context, Intent(ACTION_EMERGENCY))
+        SetupWizard.startActivity(
+            context,
+            appContext.getSystemService(TelecomManager::class.java)!!
+                .createLaunchEmergencyDialerIntent(null)
+        )
     }
 
     private fun getSimLocale(): Locale? {

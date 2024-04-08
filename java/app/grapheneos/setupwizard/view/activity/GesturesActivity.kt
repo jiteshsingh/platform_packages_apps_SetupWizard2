@@ -17,17 +17,13 @@ class GesturesActivity : SetupWizardActivity(
         private const val TAG = "GesturesActivity"
     }
 
-    private lateinit var skip: View
-    private lateinit var tryIt: View
-
     override fun bindViews() {
-        skip = requireViewById(R.id.skip)
-        tryIt = requireViewById(R.id.try_it)
+        primaryButton.setText(this, R.string.try_it)
     }
 
     override fun setupActions() {
-        skip.setOnClickListener { SetupWizard.next(this) }
-        tryIt.setOnClickListener { GesturesActions.launchTutorial(this) }
+        secondaryButton.setOnClickListener { SetupWizard.next(this) }
+        primaryButton.setOnClickListener { GesturesActions.launchTutorial(this) }
     }
 
     override fun onActivityResult(resultCode: Int, data: Intent?) {

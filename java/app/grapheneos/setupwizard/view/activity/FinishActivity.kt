@@ -14,14 +14,13 @@ class FinishActivity : SetupWizardActivity(
     R.string.you_re_all_set_now,
     if (isPrimaryUser) R.string.device_setup_done_desc else R.string.profile_setup_done_desc
 ) {
-    private lateinit var finish: View
     private lateinit var disableOemUnlockingContainer: View
     private lateinit var disableOemUnlocking: CheckBox
 
     override fun bindViews() {
-        finish = requireViewById(R.id.finish)
         disableOemUnlockingContainer = requireViewById(R.id.disable_oem_unlocking_container)
         disableOemUnlocking = requireViewById(R.id.disable_oem_unlocking)
+        primaryButton.setText(this, R.string.start)
         if (disableOemUnlockingVisible) {
             disableOemUnlocking.isChecked = FinishData.disableOemUnlockingChecked
             FinishData.oemUnlockingEnabled.observe(this) {
@@ -37,7 +36,7 @@ class FinishActivity : SetupWizardActivity(
         disableOemUnlockingContainer.setOnClickListener {
             disableOemUnlocking.isChecked = !disableOemUnlocking.isChecked
         }
-        finish.setOnClickListener {
+        primaryButton.setOnClickListener {
             val disableOemUnlocking = disableOemUnlockingVisible && disableOemUnlocking.isChecked
             FinishActions.finish(this, disableOemUnlocking)
         }

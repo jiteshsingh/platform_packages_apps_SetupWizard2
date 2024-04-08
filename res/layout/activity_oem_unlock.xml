@@ -31,61 +31,27 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/acknowledge_risks_container"
+        style="@style/SudContentFrame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="vertical">
+        android:background="?android:attr/selectableItemBackground"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/acknowledge_risks_container"
-            style="@style/SudContentFrame"
+        <CheckBox
+            android:id="@+id/acknowledge_risks"
+            style="@style/SudCheckBox.Multiline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="?android:attr/textColorPrimary" />
+
+        <TextView
+            style="@style/SudCheckBox.Multiline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:background="?android:attr/selectableItemBackground"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/acknowledge_risks"
-                style="@style/SudCheckBox.Multiline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="?android:attr/textColorPrimary" />
-
-            <TextView
-                style="@style/SudCheckBox.Multiline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/oem_unlock_ack_risks" />
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/SudGlifButtonBar.Stackable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/continue_unlocked"
-                style="@style/SudGlifButton.Secondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:text="@string/continue_without_locking" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/reboot_to_bootloader"
-                style="@style/SudGlifButton.Primary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/reboot_to_bootloader" />
-        </LinearLayout>
+            android:text="@string/oem_unlock_ack_risks" />
     </LinearLayout>
-
 </com.google.android.setupdesign.GlifLayout>

@@ -17,17 +17,13 @@ class MigrationActivity : SetupWizardActivity(
         private const val TAG = "MigrationActivity"
     }
 
-    private lateinit var skip: View
-    private lateinit var next: View
-
     override fun bindViews() {
-        skip = requireViewById(R.id.skip)
-        next = requireViewById(R.id.next)
+        primaryButton.setText(this, R.string.restore)
     }
 
     override fun setupActions() {
-        skip.setOnClickListener { SetupWizard.next(this) }
-        next.setOnClickListener { MigrationActions.launchMigration(this) }
+        secondaryButton.setOnClickListener { SetupWizard.next(this) }
+        primaryButton.setOnClickListener { MigrationActions.launchMigration(this) }
     }
 
     override fun onActivityResult(resultCode: Int, data: Intent?) {

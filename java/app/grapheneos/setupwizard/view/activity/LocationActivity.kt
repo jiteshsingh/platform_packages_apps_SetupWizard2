@@ -13,11 +13,9 @@ class LocationActivity : SetupWizardActivity(
     R.string.location_services
 ) {
     private lateinit var enabled: CheckBox
-    private lateinit var next: View
 
     override fun bindViews() {
         enabled = requireViewById(R.id.enabled)
-        next = requireViewById(R.id.next)
         LocationData.enabled.observe(this) { enabled.isChecked = it }
     }
 
@@ -26,6 +24,6 @@ class LocationActivity : SetupWizardActivity(
             LocationActions.setEnabled(!enabled.isChecked)
         }
         enabled.setOnClickListener { LocationActions.setEnabled(enabled.isChecked) }
-        next.setOnClickListener { SetupWizard.next(this) }
+        primaryButton.setOnClickListener { SetupWizard.next(this) }
     }
 }

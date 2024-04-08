@@ -2,6 +2,7 @@ package app.grapheneos.setupwizard.view.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
@@ -13,21 +14,43 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updatePadding
 import app.grapheneos.setupwizard.R
+import com.google.android.setupcompat.template.FooterBarMixin
+import com.google.android.setupcompat.template.FooterButton
 import com.google.android.setupdesign.GlifLayout
+import com.google.android.setupdesign.R as SudR
 import com.google.android.setupdesign.util.ThemeHelper
 
 /**
  * This is the base activity for all setup wizard activities.
  */
 abstract class SetupWizardActivity(
-    @LayoutRes val layoutResID: Int? = null,
-    @DrawableRes val icon: Int? = null,
-    @StringRes val header: Int? = null,
-    @StringRes val description: Int? = null,
+    @LayoutRes protected val layoutResID: Int? = null,
+    @DrawableRes protected val icon: Int? = null,
+    @StringRes protected val header: Int? = null,
+    @StringRes protected val description: Int? = null,
 ) : AppCompatActivity() {
 
-    private var glifLayout: GlifLayout? = null
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
+
+    private lateinit var footerBarMixin: FooterBarMixin
+    protected val primaryButton: FooterButton by lazy {
+        val button = FooterButton.Builder(this)
+            .setButtonType(FooterButton.ButtonType.NEXT)
+            .setTheme(SudR.style.SudGlifButton_Primary)
+            .setText(R.string.next)
+            .build()
+        footerBarMixin.primaryButton = button
+        button
+    }
+    protected val secondaryButton: FooterButton by lazy {
+        val button = FooterButton.Builder(this)
+            .setButtonType(FooterButton.ButtonType.SKIP)
+            .setTheme(SudR.style.SudGlifButton_Secondary)
+            .setText(R.string.skip)
+            .build()
+        footerBarMixin.secondaryButton = button
+        button
+    }
 
     protected fun superOnCreateAtBaseClass(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,10 +83,11 @@ abstract class SetupWizardActivity(
     }
 
     private fun initBaseView() {
-        glifLayout = findViewById(R.id.glif_layout)
-        if (icon != null) glifLayout?.icon = getDrawable(icon)
-        if (header != null) glifLayout?.setHeaderText(header)
-        if (description != null) glifLayout?.setDescriptionText(description)
+        val glifLayout = findViewById<GlifLayout>(R.id.glif_layout) ?: return
+        footerBarMixin = glifLayout.getMixin(FooterBarMixin::class.java)
+        if (icon != null) glifLayout.icon = getDrawable(icon)
+        if (header != null) glifLayout.setHeaderText(header)
+        if (description != null) glifLayout.setDescriptionText(description)
     }
 
     @MainThread

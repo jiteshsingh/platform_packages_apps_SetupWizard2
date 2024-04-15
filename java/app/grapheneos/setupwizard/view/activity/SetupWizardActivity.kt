@@ -61,6 +61,12 @@ abstract class SetupWizardActivity(
         activityResultLauncher = registerForActivityResult(StartActivityForResult()) { result ->
             onActivityResult(result.resultCode, result.data)
         }
+        onBackInvokedDispatcher.registerOnBackInvokedCallback(
+            1_000
+        ) {
+            onBackInvoked()
+            onBackPressedDispatcher.onBackPressed()
+        }
         setTheme(ThemeHelper.getSuwDefaultTheme(applicationContext))
         ThemeHelper.trySetDynamicColor(this)
         window.setFlags(
@@ -101,4 +107,6 @@ abstract class SetupWizardActivity(
     fun startActivityForResult(intent: Intent) {
         activityResultLauncher.launch(intent)
     }
+
+    protected open fun onBackInvoked() {}
 }

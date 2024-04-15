@@ -1,5 +1,6 @@
 package app.grapheneos.setupwizard.view.activity
 
+import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
@@ -55,5 +56,10 @@ class OemUnlockActivity :
         }
         secondaryButton.text = text
         secondaryButton.isEnabled = timer == 0 && acknowledgeRisks.isChecked
+    }
+
+    override fun onBackInvoked() {
+        Log.d(TAG, "onBackInvoked")
+        OemUnlockActions.stopAckTimer()
     }
 }

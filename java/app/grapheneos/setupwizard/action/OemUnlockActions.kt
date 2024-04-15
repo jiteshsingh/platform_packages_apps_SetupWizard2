@@ -9,7 +9,7 @@ import app.grapheneos.setupwizard.view.activity.WelcomeActivity
 
 object OemUnlockActions {
     private const val TAG = "OemUnlockActions"
-    private var ackTimerStarted = false
+    private var ackTimerRunning = false
 
     fun rebootToBootloader() {
         WelcomeActions.rebootToBootloader()
@@ -22,14 +22,24 @@ object OemUnlockActions {
 
     @MainThread
     fun startAckTimer(time: Int = OEM_UNLOCKED_ACK_TIMER) {
-        if (ackTimerStarted) return
-        ackTimerStarted = true
+        if (ackTimerRunning) return
+        ackTimerRunning = true
         runAckTimer(time)
+    }
+
+    @MainThread
+    fun stopAckTimer() {
+        ackTimerRunning = false
     }
 
     @MainThread
     private fun runAckTimer(time: Int) {
         if (time <= 0) return
+        if (!ackTimerRunning) {
+            // timer was interrupted
+            OemUnlockData.ackTimer.value = OEM_UNLOCKED_ACK_TIMER // reset timer value
+            return
+        }
         appContext.mainThreadHandler.postDelayed({
             OemUnlockData.ackTimer.value = time - 1
             runAckTimer(time - 1)
